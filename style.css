@@ -132,6 +132,31 @@ button:hover {
   left: -15px;
 }
 
+/* Heart positions */
+.heart-1 {
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.heart-2 {
+  top: 20%;
+  right: 20%;
+  animation-delay: 1s;
+}
+
+.heart-3 {
+  bottom: 30%;
+  left: 30%;
+  animation-delay: 2s;
+}
+
+.heart-4 {
+  bottom: 10%;
+  right: 10%;
+  animation-delay: 3s;
+}
+
 @keyframes float {
   0%,
   100% {
