@@ -104,35 +104,35 @@ button:hover {
 
 .heart {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: rgba(231, 76, 60, 0.3);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(231, 76, 60, 0.7);
   transform: rotate(45deg);
   animation: float 4s infinite ease-in-out;
   z-index: -1;
+  box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
 }
 
 .heart:before,
 .heart:after {
   content: '';
-  width: 30px;
-  height: 30px;
-  background-color: rgba(231, 76, 60, 0.3);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(231, 76, 60, 0.7);
   border-radius: 50%;
   position: absolute;
 }
 
 .heart:before {
-  top: -15px;
+  top: -20px;
   left: 0;
 }
 
 .heart:after {
   top: 0;
-  left: -15px;
+  left: -20px;
 }
 
-/* Heart positions */
 .heart-1 {
   top: 10%;
   left: 10%;
