@@ -35,6 +35,7 @@ function calculateCountdown(inputDate) {
   // If date is in the past
   if (diff < 0) {
     clearCountdown();
+    // TODO: Create an 'Easter Egg' for partner to find
     document.getElementById('output').innerHTML = `
       <h2>Congratulations! You're free! 🎉</h2>
     `;
