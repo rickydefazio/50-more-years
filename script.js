@@ -7,7 +7,7 @@ const confettiConfig = {
   particleCount: 100,
   spread: 70,
   origin: { y: 0.6 },
-  colors: ['#e74c3c', '#ff88a1', '#ff5a79', '#ff9494', '#ffc0cb'], // Red and pink colors for love theme
+  colors: ['#e74c3c', '#ff88a1', '#ff5a79', '#ff9494', '#ffc0cb'],
   zIndex: 1000,
   disableForReducedMotion: true
 };
@@ -42,15 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
   document
     .getElementById('toggleAchievementsBtn')
     .addEventListener('click', () => {
+      const achievementsTitle = document.getElementById('achievements-title');
       const achievementsContent = document.getElementById(
         'achievements-content'
       );
+
       const toggleBtn = document.getElementById('toggleAchievementsBtn');
 
       if (!achievementsShown) {
         achievementsShown = true;
         achievementsContent.classList.remove('hidden');
         toggleBtn.textContent = 'Hide My Romantic Accomplishments';
+
+        achievementsTitle.scrollIntoView({ behavior: 'smooth' });
 
         // Fire confetti when achievements are shown
         triggerConfetti();
