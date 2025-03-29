@@ -14,9 +14,9 @@ const confettiConfig = {
 
 const achievementData = [];
 
-// Generate achievement data for all 50 years
-for (let i = 1; i <= 50; i++) {
-  achievementData.push({ year: i });
+const milestoneYears = [1, 2, 3, 4, 5, 10, 15, 20, 25, 50];
+for (const year of milestoneYears) {
+  achievementData.push({ year });
 }
 
 // Initialize the page
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         achievementsShown = false;
         achievementsContent.classList.add('hidden');
-        toggleBtn.textContent = 'Reveal My Trophy Cabinet of Love';
+        toggleBtn.textContent = 'Reveal My Trophy Cabinet';
       }
     });
 
