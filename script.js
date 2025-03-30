@@ -12,12 +12,15 @@ const confettiConfig = {
   disableForReducedMotion: true
 };
 
-const achievementData = [];
+function createAchievementData() {
+  const milestoneYears = [1, 2, 3, 4, 5, 10, 15, 20, 25, 50];
+  // TODO: Add additional data for each milestone year (e.g., description, etc...)
+  const achievementData = milestoneYears.map(year => ({ year }));
 
-const milestoneYears = [1, 2, 3, 4, 5, 10, 15, 20, 25, 50];
-for (const year of milestoneYears) {
-  achievementData.push({ year });
+  return achievementData;
 }
+
+const achievementData = createAchievementData();
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
