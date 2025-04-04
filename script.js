@@ -1,7 +1,46 @@
+const { animate } = anime;
+
 let countdown;
 let clicked = false;
-const startDate = '07/30/2022'; // When it all began
+const startDate = '07/30/2022';
 const targetDate = '07/30/2072';
+
+function splitTextIntoChars(selector) {
+  const element = document.querySelector(selector);
+  if (!element) return;
+
+  const text = element.textContent;
+  element.innerHTML = '';
+
+  // Create spans for each character
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const span = document.createElement('span');
+    span.textContent = char === ' ' ? '\u00A0' : char;
+    span.className = 'char';
+    span.style.display = 'inline-block';
+    element.appendChild(span);
+  }
+}
+
+function initCharAnimation() {
+  splitTextIntoChars('h1');
+
+  animate('.char', {
+    y: [
+      { to: '-2.75rem', ease: 'outExpo', duration: 600 },
+      { to: 0, ease: 'outBounce', duration: 800, delay: 100 }
+    ],
+    rotate: {
+      from: '-1turn',
+      delay: 0
+    },
+    delay: (_, i) => i * 50,
+    ease: 'inOutCirc',
+    loopDelay: 1000,
+    loop: true
+  });
+}
 
 const confettiConfig = {
   particleCount: 100,
@@ -24,8 +63,6 @@ const achievementData = createAchievementData();
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
-  // Preload the confetti library
-  createConfettiCanvas();
   // Set up countdown toggle
   document.getElementById('toggleBtn').addEventListener('click', () => {
     if (!clicked) {
@@ -68,8 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-  // Generate achievement badge
   generateAchievementBadges();
+  initCharAnimation();
 });
 
 function clearCountdown() {
@@ -226,23 +263,12 @@ function triggerConfetti() {
     origin: { y: rect.bottom / window.innerHeight, x: xOrigin }
   };
 
-  // Check if confetti is available, if not wait for it to load
-  if (!window.confetti) {
-    console.log('Confetti not yet loaded, waiting...');
-    // Set a flag to fire confetti once loaded
-    window.confettiPending = true;
-    window.confettiConfig = customConfig;
-    // Make sure the library is loading
-    createConfettiCanvas();
-    return;
-  }
-
   // Launch confetti
-  window.confetti(customConfig);
+  confetti(customConfig);
 
   // Fire a second burst after a slight delay for more effect
   setTimeout(() => {
-    window.confetti({
+    confetti({
       ...customConfig,
       particleCount: 50,
       spread: 60,
@@ -252,43 +278,4 @@ function triggerConfetti() {
       }
     });
   }, 300);
-}
-
-/**
- * Creates a canvas for the confetti animation and adds the confetti.js functionality
- */
-function createConfettiCanvas() {
-  // Don't create it twice
-  if (document.querySelector('script[src*="confetti.browser.min.js"]')) return;
-
-  // Define the confetti.js code inline to avoid external dependencies
-  (function () {
-    var script = document.createElement('script');
-    script.onload = function () {
-      console.log('Confetti JS loaded and ready!');
-
-      // If there's a pending confetti request, fire it now
-      if (window.confettiPending && window.confettiConfig) {
-        window.confetti(window.confettiConfig);
-
-        // Fire a second burst after a slight delay for more effect
-        setTimeout(() => {
-          window.confetti({
-            ...window.confettiConfig,
-            particleCount: 50,
-            spread: 60,
-            origin: {
-              y: window.confettiConfig.origin.y - 0.1,
-              x: window.confettiConfig.origin.x
-            }
-          });
-        }, 300);
-
-        window.confettiPending = false;
-      }
-    };
-    script.src =
-      'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
-    document.head.appendChild(script);
-  })();
 }
