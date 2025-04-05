@@ -5,28 +5,8 @@ let clicked = false;
 const startDate = '07/30/2022';
 const targetDate = '07/30/2072';
 
-function splitTextIntoChars(selector) {
-  const element = document.querySelector(selector);
-  if (!element) return;
-
-  const text = element.textContent;
-  element.innerHTML = '';
-
-  // Create spans for each character
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    const span = document.createElement('span');
-    span.textContent = char === ' ' ? '\u00A0' : char;
-    span.className = 'char';
-    span.style.display = 'inline-block';
-    element.appendChild(span);
-  }
-}
-
 function initCharAnimation() {
-  splitTextIntoChars('h1');
-
-  animate('.char', {
+  animate('h1 > strong', {
     y: [
       { to: '-2.75rem', ease: 'outExpo', duration: 600 },
       { to: 0, ease: 'outBounce', duration: 800, delay: 100 }
