@@ -37,6 +37,10 @@ h1 {
 }
 
 h1 > strong {
+  display: inline-flex;
+}
+
+h1 > strong > span.char {
   display: inline-block;
 }
 

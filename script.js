@@ -6,7 +6,7 @@ const startDate = '07/30/2022';
 const targetDate = '07/30/2072';
 
 function initCharAnimation() {
-  animate('h1 > strong', {
+  animate('h1 > strong > span.char', {
     y: [
       { to: '-2.75rem', ease: 'outExpo', duration: 600 },
       { to: 0, ease: 'outBounce', duration: 800, delay: 100 }
