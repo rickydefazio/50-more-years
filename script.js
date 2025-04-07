@@ -6,7 +6,7 @@ const startDate = '07/30/2022';
 const targetDate = '07/30/2072';
 
 function initCharAnimation() {
-  animate('h1 > strong > span.char', {
+  animate('.char', {
     y: [
       { to: '-2.75rem', ease: 'outExpo', duration: 600 },
       { to: 0, ease: 'outBounce', duration: 800, delay: 100 }
@@ -31,16 +31,6 @@ const confettiConfig = {
   disableForReducedMotion: true
 };
 
-function createAchievementData() {
-  const milestoneYears = [1, 2, 3, 4, 5, 10, 15, 20, 25, 50];
-  // TODO: Add additional data for each milestone year (e.g., description, etc...)
-  const achievementData = milestoneYears.map(year => ({ year }));
-
-  return achievementData;
-}
-
-const achievementData = createAchievementData();
-
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
   // Set up countdown toggle
@@ -57,35 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Set up achievements toggle
-  let achievementsShown = false;
-  document
-    .getElementById('toggleAchievementsBtn')
-    .addEventListener('click', () => {
-      const achievementsTitle = document.getElementById('achievements-title');
-      const achievementsContent = document.getElementById(
-        'achievements-content'
-      );
-
-      const toggleBtn = document.getElementById('toggleAchievementsBtn');
-
-      if (!achievementsShown) {
-        achievementsShown = true;
-        achievementsContent.classList.remove('hidden');
-        toggleBtn.textContent = 'Hide My Romantic Accomplishments';
-
-        achievementsTitle.scrollIntoView({ behavior: 'smooth' });
-
-        // Fire confetti when achievements are shown
-        triggerConfetti();
-      } else {
-        achievementsShown = false;
-        achievementsContent.classList.add('hidden');
-        toggleBtn.textContent = 'Reveal My Trophy Cabinet';
-      }
-    });
-
-  generateAchievementBadges();
   initCharAnimation();
 });
 
@@ -115,9 +76,6 @@ function calculateCountdown(inputDate) {
     `;
     return;
   }
-
-  // Update unlocked achievements whenever the countdown is calculated
-  updateAchievements();
 
   const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
   diff -= years * (1000 * 60 * 60 * 24 * 365);
@@ -162,100 +120,4 @@ function calculateCountdown(inputDate) {
       <span class="label">Seconds</span>
     </div>
   `;
-}
-
-/**
- * Generates all achievement badges and adds them to the page
- */
-function generateAchievementBadges() {
-  const achievementsContainer = document.getElementById(
-    'achievements-container'
-  );
-
-  // Clear existing badges
-  achievementsContainer.innerHTML = '';
-
-  // Create a badge for each achievement
-  achievementData.forEach(achievement => {
-    const badge = document.createElement('div');
-    badge.className = 'achievement-badge';
-    badge.id = `achievement-${achievement.year}`;
-    badge.setAttribute('data-year', achievement.year);
-
-    badge.innerHTML = `
-      <div class="achievement-badge-content">
-        <div class="achievement-year">${achievement.year}</div>
-        <div class="achievement-text">Year</div>
-      </div>
-    `;
-
-    achievementsContainer.appendChild(badge);
-  });
-
-  // Update which badges are unlocked
-  updateAchievements();
-}
-
-/**
- * Updates the unlocked achievements based on time passed since start date
- */
-function updateAchievements() {
-  const [startMonth, startDay, startYear] = startDate.split('/');
-  const sentenceStartDate = new Date(`${startYear}-${startMonth}-${startDay}`);
-  const now = new Date();
-
-  // Calculate years passed (approximate, not exact to the day)
-  const millisecondsPassed = now - sentenceStartDate;
-  const daysPassed = millisecondsPassed / (1000 * 60 * 60 * 24);
-  const yearsPassed = daysPassed / 365.25;
-
-  // Unlock achievements for completed years
-  const completedYears = Math.floor(yearsPassed);
-
-  // Update badge display
-  achievementData.forEach(achievement => {
-    const badge = document.getElementById(`achievement-${achievement.year}`);
-    if (badge) {
-      if (achievement.year <= completedYears) {
-        badge.classList.add('unlocked');
-      } else {
-        badge.classList.remove('unlocked');
-      }
-    }
-  });
-}
-
-/**
- * Creates and fires a confetti animation when achievements are revealed
- */
-function triggerConfetti() {
-  // Get the achievements button position for the confetti origin
-  const button = document.getElementById('toggleAchievementsBtn');
-  const rect = button.getBoundingClientRect();
-  const buttonCenter = rect.left + rect.width / 2;
-
-  // Calculate the x-origin (0 to 1 where 0 is left edge and 1 is right edge)
-  const xOrigin = buttonCenter / window.innerWidth;
-
-  // Prepare the confetti configuration
-  const customConfig = {
-    ...confettiConfig,
-    origin: { y: rect.bottom / window.innerHeight, x: xOrigin }
-  };
-
-  // Launch confetti
-  confetti(customConfig);
-
-  // Fire a second burst after a slight delay for more effect
-  setTimeout(() => {
-    confetti({
-      ...customConfig,
-      particleCount: 50,
-      spread: 60,
-      origin: {
-        y: (rect.top + rect.height / 2) / window.innerHeight,
-        x: xOrigin
-      }
-    });
-  }, 300);
 }
