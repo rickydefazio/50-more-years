@@ -2,8 +2,8 @@ const { animate } = anime;
 
 let countdown;
 let clicked = false;
-const startDate = '07/30/2022';
-const targetDate = '07/30/2072';
+const startDate = '2022-07-30T00:00:00';
+const targetDate = '2072-07-30T00:00:00';
 
 function initCharAnimation() {
   animate('.char', {
@@ -61,8 +61,7 @@ function startCountdown(inputDate) {
 }
 
 function calculateCountdown(inputDate) {
-  const [month, day, year] = inputDate.split('/');
-  const endDate = new Date(`${year}-${month}-${day}`);
+  const endDate = new Date(inputDate);
 
   const now = new Date();
   let diff = endDate - now;
